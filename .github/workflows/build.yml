@@ -1,4 +1,3 @@
-
 name: Build ApexGram
 on: [push, workflow_dispatch]
 jobs:
@@ -12,9 +11,16 @@ jobs:
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Fix submodules
+    - name: Patch media module and settings
       run: |
-        git submodule update --init --recursive
+        # Создаем папку, если её нет
+        mkdir -p TMessagesProj_Modules/media
+        # Создаем пустой файл core_settings.gradle, чтобы Gradle не падал на чтении
+        touch TMessagesProj_Modules/media/core_settings.gradle
+        # Удаляем все упоминания media из settings.gradle, чтобы Gradle не искал его
+        sed -i '/TMessagesProj_Modules:media/d' settings.gradle
+        # Убираем зависимость от media в build.gradle
+        sed -i "/project(':TMessagesProj_Modules:media3:media-lib-exoplayer')/d" TMessagesProj/build.gradle
     - name: Build APK
       run: |
         chmod +x gradlew
