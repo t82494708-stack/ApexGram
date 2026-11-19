@@ -14,12 +14,11 @@ jobs:
     - name: Fix missing submodules
       run: |
         rm -rf TMessagesProj_Modules/media
-        git clone --depth 1 https://github.com/DrKLO/Media.git TMessagesProj_Modules/media || true
+        git clone https://github.com/DrKLO/Media.git TMessagesProj_Modules/media
     - name: Build APK
       run: |
         chmod +x gradlew
-        export GRADLE_OPTS="-Xmx3g -Dorg.gradle.daemon=false"
-        ./gradlew assembleDebug --no-daemon
+        ./gradlew assembleDebug
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
