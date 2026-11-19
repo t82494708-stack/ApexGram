@@ -11,10 +11,10 @@ jobs:
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Fix missing submodules (media)
+    - name: Fix missing submodules
       run: |
         rm -rf TMessagesProj_Modules/media
-        git clone --depth 1 https://github.com/DrKLO/Media.git TMessagesProj_Modules/media
+        git clone --depth 1 https://github.com/DrKLO/Media.git TMessagesProj_Modules/media || true
     - name: Build APK
       run: |
         chmod +x gradlew
