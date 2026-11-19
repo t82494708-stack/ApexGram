@@ -11,9 +11,10 @@ jobs:
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Remove media module from settings
+    - name: Fix missing media module
       run: |
-        sed -i "/media/d" settings.gradle
+        mkdir -p TMessagesProj_Modules/media
+        echo "" > TMessagesProj_Modules/media/core_settings.gradle
     - name: Build APK
       run: |
         chmod +x gradlew
