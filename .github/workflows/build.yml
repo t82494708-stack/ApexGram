@@ -1,3 +1,4 @@
+
 name: Build ApexGram
 on: [push, workflow_dispatch]
 jobs:
@@ -11,10 +12,9 @@ jobs:
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Fix missing media module
+    - name: Fix submodules
       run: |
-        mkdir -p TMessagesProj_Modules/media
-        echo "" > TMessagesProj_Modules/media/core_settings.gradle
+        git submodule update --init --recursive
     - name: Build APK
       run: |
         chmod +x gradlew
