@@ -11,16 +11,13 @@ jobs:
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Patch media module and settings
+    - name: Download media module manually
       run: |
-        # Создаем папку, если её нет
-        mkdir -p TMessagesProj_Modules/media
-        # Создаем пустой файл core_settings.gradle, чтобы Gradle не падал на чтении
-        touch TMessagesProj_Modules/media/core_settings.gradle
-        # Удаляем все упоминания media из settings.gradle, чтобы Gradle не искал его
-        sed -i '/TMessagesProj_Modules:media/d' settings.gradle
-        # Убираем зависимость от media в build.gradle
-        sed -i "/project(':TMessagesProj_Modules:media3:media-lib-exoplayer')/d" TMessagesProj/build.gradle
+        rm -rf TMessagesProj_Modules/media
+        mkdir -p TMessagesProj_Modules
+        wget https://github.com/TelegramMessenger/Telegram-Android-Media/archive/refs/heads/main.zip
+        unzip main.zip
+        mv Telegram-Android-Media-main TMessagesProj_Modules/media
     - name: Build APK
       run: |
         chmod +x gradlew
