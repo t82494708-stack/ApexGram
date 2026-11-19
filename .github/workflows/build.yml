@@ -4,20 +4,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Clone full repository with submodules
+      run: |
+        git clone --recursive https://github.com/DrKLO/Telegram.git .
     - uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
         java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
-    - name: Download media module manually
-      run: |
-        rm -rf TMessagesProj_Modules/media
-        mkdir -p TMessagesProj_Modules
-        wget https://github.com/TelegramMessenger/Telegram-Android-Media/archive/refs/heads/main.zip
-        unzip main.zip
-        mv Telegram-Android-Media-main TMessagesProj_Modules/media
     - name: Build APK
       run: |
         chmod +x gradlew
