@@ -7,6 +7,9 @@ jobs:
     - name: Clone full repository with submodules
       run: |
         git clone --recursive https://github.com/DrKLO/Telegram.git .
+    - name: Rebrand to ApexGram
+      run: |
+        sed -i 's/<string name="AppName">Telegram<\/string>/<string name="AppName">ApexGram<\/string>/g' TMessagesProj/src/main/res/values/strings.xml
     - uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
@@ -26,9 +29,6 @@ jobs:
       run: |
         chmod +x gradlew
         ./gradlew assembleDebug
-    - name: Find and Upload APK
-      run: |
-        find . -name "*.apk"
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
